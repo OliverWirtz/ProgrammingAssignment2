@@ -2,17 +2,17 @@
 
 
 makeCacheMatrix <- function(x = matrix()) {
-    m <- NULL
-    set <- function(y) {
-      x <<- y
+    m <- NULL       ##initialise m 
+    set <- function(y) {  
+      x <<- y         
       m <<- NULL
-    }
-    get <- function() x
-    setsolve <- function(solve) m <<- solve
-    getsolve<- function() m
+    }                     ##define a set function that can assign an object to x and resets m  
+    get <- function() x   ## the get function retrieves x
+    setsolve <- function(solve) m <<- solve      ##setsolve uses the solve function on the parameter and assigns result to m
+    getsolve<- function() m     ##retrieve m
     list(set = set, get = get,
          setsolve = setsolve,
-         getsolve = getsolve)
+         getsolve = getsolve)      ###create a list with function calls created above
 
 }
 
@@ -20,14 +20,14 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-  m <- x$getsolve()
+  m <- x$getsolve()              ##call the getsolve function which retrieves m
   if(!is.null(m)) {
-    message("getting cached data")
-    return(m)
+    message("getting cached data")  ##if m is not null the this result is used
+    return(m)                       ### return m and quit function
   }
-  data <- x$get()
-  m <- solve(data, ...)
-  x$setsolve(m)
-  m
+  data <- x$get()                  ### in case m is null call function get, basically assign x to data
+  m <- solve(data, ...)            ## calculate inverse from data and assign result to m
+  x$setsolve(m)                    ## send result to cache
+  m                                ## output result
 }  
 
